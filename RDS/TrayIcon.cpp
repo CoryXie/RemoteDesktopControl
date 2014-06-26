@@ -72,7 +72,7 @@ BOOL CTrayIcon::SetIcon(HICON hicon, LPCSTR lpTip)
 
 	// Use the tip, if any
 	if (lpTip)
-		strncpy(m_nid.szTip, lpTip, sizeof(m_nid.szTip));
+		strncpy(reinterpret_cast<char*>(m_nid.szTip), reinterpret_cast<const char *>(lpTip), sizeof(m_nid.szTip));
 	if (m_nid.szTip[0])
 		m_nid.uFlags |= NIF_TIP;
 

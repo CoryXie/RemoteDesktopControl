@@ -180,7 +180,7 @@ void CRefreshThread::OnAcceptConn(WPARAM wParam,LPARAM lParam)
 	m_mapAcceptEvent[pAccept] = pAcceptEvent;
 
 	#if defined(_DEBUG)
-	DebugMsg("Thread %d Accepted Connection\n",m_dwThread);
+	DebugMsg(_T("Thread %d Accepted Connection\n"), m_dwThread);
 	#endif
 }
 
@@ -440,7 +440,7 @@ void CRefreshThread::OnImageRefresh(WPARAM wParam,LPARAM lParam)
 				if (bChange)
 				{
 					#if defined(_DEBUG)
-					DebugMsg("Cursor changed\n");
+					DebugMsg(_T("Cursor changed\n"));
 					#endif
 
 					// Update the last cursor data
@@ -471,7 +471,7 @@ void CRefreshThread::OnImageSend(WPARAM wParam,LPARAM lParam)
 
 	#if defined(_DEBUG)
 	if (m_nDIB)
-		DebugMsg("Rect: (%d,%d)-(%d,%d) Uncompressed: %d Compressed: %d\n",DIBPacket.m_Rect.left,DIBPacket.m_Rect.top,DIBPacket.m_Rect.right,DIBPacket.m_Rect.bottom,DIBPacket.m_dwSrcBytes,DIBPacket.m_dwBytes);
+		DebugMsg(_T("Rect: (%d,%d)-(%d,%d) Uncompressed: %d Compressed: %d\n"), DIBPacket.m_Rect.left, DIBPacket.m_Rect.top, DIBPacket.m_Rect.right, DIBPacket.m_Rect.bottom, DIBPacket.m_dwSrcBytes, DIBPacket.m_dwBytes);
 	#endif
 
 	// Send the update to all connected clients

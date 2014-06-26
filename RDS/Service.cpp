@@ -231,31 +231,31 @@ DWORD CControlService::Control(DWORD dwControl)
 				switch (dwRet)
 				{
 				case SERVICE_STOPPED:
-					DebugMsg("The service is not running\n");
+					DebugMsg(_T("The service is not running\n"));
 					break;
 				case SERVICE_START_PENDING:
-					DebugMsg("The service is starting\n");
+					DebugMsg(_T("The service is starting\n"));
 					break;
 				case SERVICE_STOP_PENDING:
-					DebugMsg("The service is stopping\n");
+					DebugMsg(_T("The service is stopping\n"));
 					break;
 				case SERVICE_RUNNING:
-					DebugMsg("The service is running\n");
+					DebugMsg(_T("The service is running\n"));
 					break;
 				case SERVICE_CONTINUE_PENDING:
-					DebugMsg("The service continue is pending\n");
+					DebugMsg(_T("The service continue is pending\n"));
 					break;
 				case SERVICE_PAUSE_PENDING:
-					DebugMsg("The service pause is pending\n");
+					DebugMsg(_T("The service pause is pending\n"));
 					break;
 				case SERVICE_PAUSED:
-					DebugMsg("The service is paused\n");
+					DebugMsg(_T("The service is paused\n"));
 					break;
 				case ERROR_SERVICE_NOT_ACTIVE:
-					DebugMsg("The service is not active\n");
+					DebugMsg(_T("The service is not active\n"));
 					break;
 				default:
-					DebugMsg("The service returned code %d\n",dwRet);
+					DebugMsg(_T("The service returned code %d\n"), dwRet);
 					break;
 				}
 			}
@@ -284,7 +284,7 @@ bool CControlService::Install(const TCHAR * pszServiceName, const TCHAR * pszDes
 		{
 			// Set the description of the service
 			SERVICE_DESCRIPTION Desc;
-			Desc.lpDescription = (LPSTR)pszDescription;
+			Desc.lpDescription = (LPWSTR)pszDescription;
 			ChangeServiceConfig2(m_hService,SERVICE_CONFIG_DESCRIPTION,&Desc);
 			bInstall = true;
 		}

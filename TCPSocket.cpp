@@ -256,7 +256,7 @@ CSocketWndSink::CSocketWndSink(HWND hWndParent) : CWnd(), m_hWndParent(hWndParen
 {
 	// Create the window
 	if (!CreateEx(0,AfxRegisterWndClass(0),_T("RDVSink"),WS_OVERLAPPED,0,0,0,0,NULL,NULL))
-		DebugMsg("%s\n",TEXT("Failed to create a RDV window notification sink"));
+		DebugMsg(_T("%s\n"), TEXT("Failed to create a RDV window notification sink"));
 }
 
 // Destructor
@@ -387,7 +387,7 @@ LRESULT CSocketWndSink::OnMakeConn(WPARAM wParam,LPARAM lParam)
 		m_bConnected = TRUE;
 
 #if defined(_DEBUG)
-		DebugMsg("Connected to the server on thread %d\n",GetCurrentThreadId());
+		DebugMsg(_T("Connected to the server on thread %d\n"), GetCurrentThreadId());
 #endif
 	}
 	return lParam;
@@ -424,7 +424,7 @@ void CSocketWndSink::Connect(CString csIp,CString csPort)
 	m_Socket.SetParent(GetSafeHwnd());
 
 	// Attempt to connect to the server
-	m_Socket.Connect(csIp,atoi(csPort));
+	m_Socket.Connect(csIp, _ttoi(csPort));
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -480,7 +480,7 @@ BOOL CSocketWndSinkThread::InitInstance()
 	ASSERT(m_pSocketWnd != NULL);
 
 #if defined(_DEBUG)
-	DebugMsg("Thread %d ready\n",GetCurrentThreadId());
+	DebugMsg(_T("Thread %d ready\n"), GetCurrentThreadId());
 #endif
 
 	return TRUE;
@@ -569,7 +569,7 @@ CSocketEvent::CSocketEvent(CWinThread * pThread) : CWnd(), m_pThread(pThread), m
 {
 	// Create the window
 	if (!CreateEx(0,AfxRegisterWndClass(0),_T("RDSSink"),WS_OVERLAPPED,0,0,0,0,NULL,NULL))
-		DebugMsg("%s\n",TEXT("Failed to create a RDS window notification sink"));
+		DebugMsg(_T("%s\n"), TEXT("Failed to create a RDS window notification sink"));
 }
 
 // Destructor

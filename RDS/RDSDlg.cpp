@@ -59,10 +59,10 @@ CRDSDlg::CRDSDlg(CWnd* pParent /*=NULL*/)
 
 	// Temporarily disable UAC
 	CRegistry Registry(TRUE,FALSE);
-	if (Registry.Open("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"))
+	if (Registry.Open(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System")))
 	{
-		if (!Registry.Read("EnableLUA",m_dwEnableLUA) || m_dwEnableLUA != 0)
-			Registry.Write("EnableLUA",(DWORD)0);
+		if (!Registry.Read(_T("EnableLUA"), m_dwEnableLUA) || m_dwEnableLUA != 0)
+			Registry.Write(_T("EnableLUA"), (DWORD)0);
 	}
 }
 
@@ -72,8 +72,8 @@ CRDSDlg::~CRDSDlg()
 	if (m_dwEnableLUA != 0)
 	{
 		CRegistry Registry(TRUE,FALSE);
-		if (Registry.Open("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"))
-			Registry.Write("EnableLUA",m_dwEnableLUA);
+		if (Registry.Open(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System")))
+			Registry.Write(_T("EnableLUA"), m_dwEnableLUA);
 	}
 }
 
@@ -203,7 +203,7 @@ BOOL CRDSDlg::OnInitDialog()
 
 	// Set the dialog title
 	CString csTitle;
-	csTitle.Format("Desktop Server: %s",csIP);
+	csTitle.Format(_T("Desktop Server: %s"), csIP);
 	SetWindowText(csTitle);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -415,7 +415,7 @@ LRESULT CRDSDlg::OnReceiveData(WPARAM wParam,LPARAM lParam)
 		{
 			// Signifies the completion of the handshaking of the main connection
 #if defined(_DEBUG)
-			DebugMsg("Session Id: %d\n",Packet.m_nSessionId);
+			DebugMsg(_T("Session Id: %d\n"), Packet.m_nSessionId);
 #endif
 		}
 		else
@@ -445,7 +445,7 @@ void CRDSDlg::SetMouseMessage(WORD wMM,CPoint MousePosition,UINT nFlags,short zD
 	int my = (int)((double)MousePosition.y * m_dyHeightScalar);
 
 	#if defined(_DEBUG)
-	DebugMsg("MM=%d (%d,%d)\n",wMM,mx,my);
+	DebugMsg(_T("MM=%d (%d,%d)\n"), wMM, mx, my);
 	#endif
 
 	// The time stamp of the operation in milli-seconds
@@ -932,7 +932,7 @@ void CRDSDlg::CreateRefreshThreads()
 				// Debugging
 				TopLeft = DIBRect.TopLeft();
 				BottomRight = DIBRect.BottomRight();
-				DebugMsg("Thread=%d Rect=(%d,%d)-(%d,%d)\n",iThread,TopLeft.x,TopLeft.y,BottomRight.x,BottomRight.y);
+				DebugMsg(_T("Thread=%d Rect=(%d,%d)-(%d,%d)\n"), iThread, TopLeft.x, TopLeft.y, BottomRight.x, BottomRight.y);
 				
 				// Store the rectangle
 				vDIBRect.push_back(DIBRect);
@@ -1036,7 +1036,7 @@ void GetPublicIP(CString & csIP)
 					CString csRequest = HTTPRequest->GetresponseText();
 
 					// Parse the IP address
-					CString csMarker = "<!-- contact us before using a script to get your IP address -->";
+					CString csMarker = CString("<!-- contact us before using a script to get your IP address -->");
 					int iPos = csRequest.Find(csMarker);
 					if (iPos != -1)
 					{

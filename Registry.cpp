@@ -80,7 +80,7 @@ BOOL CRegistry::RecursiveDeleteKey(LPCTSTR pszPath, BOOL bAdmin)
 	while(bSuccess && tmp.EnumKey(0, subkey))
 	{
 		CString path(pszPath);
-		path.TrimRight("\\");
+		path.TrimRight(_T("\\"));
 		path += _T("\\") + subkey;
 		bSuccess = RecursiveDeleteKey(path, bAdmin);
 	}

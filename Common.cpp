@@ -41,7 +41,7 @@ void DebugLastError()
 	LPVOID lpMsgBuf;
 	DWORD dwLastError = GetLastError(); 
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,NULL,dwLastError,MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),(LPTSTR)&lpMsgBuf,0,NULL);
-	DebugMsg("%s\n",lpMsgBuf);
+	DebugMsg(_T("%s\n"), lpMsgBuf);
 	LocalFree(lpMsgBuf);
 }
 

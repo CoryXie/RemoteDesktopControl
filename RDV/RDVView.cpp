@@ -182,7 +182,7 @@ void CRDVView::ConnectServer()
 	m_Socket.SetParent(GetSafeHwnd());
 
 	// Attempt to connect to the server
-	m_Socket.Connect(csIp,atoi(csPort));
+	m_Socket.Connect(csIp,_ttoi(csPort));
 }
 
 // Disconnect from the server
@@ -556,12 +556,12 @@ LRESULT CRDVView::OnCloseConn(WPARAM wParam,LPARAM lParam)
 		DeleteSinkThreads();
 
 		// Notify
-		AfxMessageBox("The connection to the server has been dropped\n");
+		AfxMessageBox(_T("The connection to the server has been dropped\n"));
 	}
 	else
 	{
 		// Notify
-		AfxMessageBox("The password is incorrect\n");
+		AfxMessageBox(_T("The password is incorrect\n"));
 	}
 
 	// Set the timer to close the document

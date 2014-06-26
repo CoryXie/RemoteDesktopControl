@@ -60,7 +60,7 @@ public:
    {
       finish = clock();
       double duration = (double)(finish - start) / CLOCKS_PER_SEC;
-      DebugMsg("%s Duration = %f seconds\n",p,duration);
+	  DebugMsg(_T("%s Duration = %f seconds\n"), p, duration);
    }
 };
 

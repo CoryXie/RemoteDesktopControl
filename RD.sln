@@ -1,16 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDS", "RDS\RDS.vcproj", "{636A6E84-6021-4A0A-B554-1AD52DA41CC8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A} = {BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A}
-	EndProjectSection
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDS", "RDS\RDS.vcxproj", "{636A6E84-6021-4A0A-B554-1AD52DA41CC8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDV", "RDV\RDV.vcproj", "{791FFCDF-33C1-4191-A574-65B3DB6C50DA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A} = {BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RDV", "RDV\RDV.vcxproj", "{791FFCDF-33C1-4191-A574-65B3DB6C50DA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "ZLib\ZLib.vcproj", "{BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "ZLib\ZLib.vcxproj", "{BF10D6F6-DC8A-48B7-BE94-F25B60CB6D5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

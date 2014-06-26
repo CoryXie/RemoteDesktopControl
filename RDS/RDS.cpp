@@ -42,12 +42,12 @@ CRDSApp::CRDSApp()
 	InitVersion();
 
 	// Output the licensing disclaimer
-    DebugMsg("Remote Desktop System, Copyright (C) 2000-2009 GravyLabs LLC\n");
-    DebugMsg("GravyLabs LLC can be reached at jones.gravy@gmail.com\n");
-    DebugMsg("Remote Desktop System comes with ABSOLUTELY NO WARRANTY\n");
-    DebugMsg("This is free software, and you are welcome to redistribute it\n");
-    DebugMsg("under of the GNU General Public License as published by\n");
-	DebugMsg("the Free Software Foundation; version 2 of the License.\n");
+	DebugMsg(_T("Remote Desktop System, Copyright (C) 2000-2009 GravyLabs LLC\n"));
+	DebugMsg(_T("GravyLabs LLC can be reached at jones.gravy@gmail.com\n"));
+	DebugMsg(_T("Remote Desktop System comes with ABSOLUTELY NO WARRANTY\n"));
+	DebugMsg(_T("This is free software, and you are welcome to redistribute it\n"));
+	DebugMsg(_T("under of the GNU General Public License as published by\n"));
+	DebugMsg(_T("the Free Software Foundation; version 2 of the License.\n"));
 }
 
 CRDSApp::~CRDSApp()
@@ -92,7 +92,7 @@ BOOL CRDSApp::InitInstance()
 		dlg.DoModal();
 	}
 	else
-		AfxMessageBox("Requires Windows XP or later");
+		AfxMessageBox(_T("Requires Windows XP or later"));
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
