@@ -1,0 +1,176 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Article Source</title>
+<link rel="stylesheet" type="text/css" href="http://s.codeproject.com/App_Themes/Std/CSS/CodeProject.css?dt=2.3.110327.1" />
+<base href="http://www.codeproject.com/KB/IP/" />
+</head>
+<body>
+<!--
+HTML for article "Remote Control PCs" by Andy Bantly
+URL: http://www.codeproject.com/KB/IP/remotecontrol.aspx
+Copyright 2000 by Andy Bantly
+All formatting, additions and alterations Copyright © CodeProject, 1999-2011
+-->
+
+
+
+
+<div>
+
+
+
+
+<!-- Start Article -->
+<span id="ArticleContent">
+
+<h2>Introduction</h2>
+
+<p>Here are two projects that work together to remote control PCs. This software only works for XP and above, and is very stable. The server can handle multiple clients, and each client can handle multiple connections to the same or different servers.</p>
+
+<p>The projects are a server and client pair. The server is RDS, Remote Desktop Server, and the client is RDV, Remote Desktop Viewer. The executables are packaged up with the source code, and there are projects for Visual Studio 2005 and 2008. I built a custom project out of the ZLIB library and compiled it as a Windows library with the /MT settings. Both 32 and 64 bit library files, in Release and Debug mode, are included. The <em>ZLIB.H</em> and <em>ZCONF.H</em> files are also included. For examples of single-threaded usage, see the <code>CZLib</code> class. For examples of multi-threaded usage, see the classes <code>CDriveMultiThreadedCompression</code>, <code>CMultiThreadedCompression</code>, and <code>CZLib</code>.</p>
+
+<p>The system can be broken into four main components:</p>
+
+<ol>
+<li>Network layer</li>
+
+<li>Compression layer</li>
+
+<li>Graphics layer</li>
+
+<li>Input layer</li>
+</ol>
+
+<p>The network layer, <code>CTCPSocket</code>, relies on <code>SOCKET</code> events as provided by the O/S, and it then forwards them onto the message pump of the window that is expecting those messages. It has operator overloading, using &lt;&lt; and &gt;&gt;, for sending and receiving data. The data is described by its own class in <code>CPacket</code>, and each type of packet has a constructor. The <code>socket</code> class is derived from <code>CAsyncSocket</code>. This class relies on network events, as relayed through the message pump, to notify the program when something interesting happens. Of note, the send function is the <code>TransmitPackets</code> function. The <code>TransmitPackets</code> function transmits in-memory data or file data over a connected socket. The <code>TransmitPackets</code> function uses the Operating System cache manager to retrieve file data, locking memory for the minimum time required to transmit, and resulting in efficient, high-performance transmission.</p>
+
+<p>The compression layer can be compartmentalized in two parts with two categories in each part. The outer part is the threading model. The compression can either be done in single or multiple threads. For each kind of threading, there are available the ZLIB compressor and my own homegrown arithmetic encoder compressor. Compression occurs in the data packet that represents the bitmap data. My compressor was based on the knowledge of Jean-Loup Gailley and Mark Nelson in their book &quot;The Data Compression Book - Second Edition&quot; ISBN 1-55851-434-1.</p>
+
+<p>The graphics layer is another area that is multi-threaded. This portion of the code has undergone significant improvements since the last version of the code. The system is over twice as fast now with this reworking of this section of code. The main body of the code creates a thread for each rectangular region of the screen which will be polled for changes. When a thread detects a change in its area, it posts a notification back to the main thread. The main thread then sends this packet onto all the connected clients. Each thread has an activity timer. The less frequent a change occurs, the less frequent that area is checked. When a change does occur in an area, the activity timer is reset to the shortest pause.</p>
+
+<p>The input layer is in the client code. The client captures the mouse and keyboard events and sends them to the server. The server uses the <code>SendInput</code> function to act out these events.</p>
+
+<h2>TODO</h2>
+
+<p>There are two areas of the code which still need attention. The first area is adding the capability to interact with terminal server sessions and capture those desktops. Currently, the code can't see those desktops. I am researching this problem diligently because it irritates me. The second area is to add support for the <code>DFMirage</code> mirror driver. This is the mirror driver that Tight VNC uses. I'm not reusing the VNC code, but I will learn how to instantiate a mirrored device context to help my code know better about screen updates.</p>
+
+<h2>History</h2>
+
+<ul>
+<li>12<sup>th</sup> March, 2010</li>
+
+<ul>
+<li>This update reworks the graphics layer and adds ZLIB compression to the compression layer. The compression layer supports both single and multi-threaded use of ZLIB and Arithmetic Encoding. Overall, the system was redesigned for a multi-threaded environment.</li>
+</ul>
+
+<li>20<sup>th</sup> October, 2009</li>
+
+<ul>
+<li>This update adds MDI support to the system. The client component can now make multiple connections to many servers.</li>
+</ul>
+
+<li>17<sup>th</sup> October, 2009: Source code updated</li>
+
+<ul>
+<li>The server now supports multiple monitor configurations. It captures the entire &quot;virtual desktop&quot;. Previously, it only captured the primary desktop.</li>
+</ul>
+
+<li>9<sup>th</sup> October, 2009: Source code update that addresses three issues:</li>
+
+<ul>
+<li>Binaries are added to the ZIP, in the <em>Target</em> Directory, for people to try out the system immediately.</li>
+
+<li>Receiving data is faster now.</li>
+
+<li>Experimental support for Video for Windows <code>ICImageCompress</code> and <code>ICImageDecompress</code> has been added.</li>
+</ul>
+
+<li>14<sup>th</sup> September, 2009</li>
+
+<ul>
+<li>Updated to use a multithreaded arithmetic encoder. It uses four threads to concurrently encode the DIB data. It previously was just single threaded. It improves compression by about 40%.</li>
+</ul>
+
+<li>12<sup>th</sup> March, 2010</li>
+
+<ul>
+<li>The solutions are now available in VS 2005 and VS 2008 projects.</li>
+</ul>
+
+<li>16<sup>th</sup> March, 2010</li>
+
+<ul>
+<li>Minor update that adds the ZLIB code to the project files.</li>
+</ul>
+
+<li>30<sup>th</sup> March, 2010</li>
+
+<ul>
+<li>This update is performance related. Memory allocations and network performance were improved. With the memory, the system minimizes the frequency of memory being allocated and released. During compression, the buffers are allocated once and resized as needed. With network performance, it improves the way the worker threads interact with the main thread. The main thread has been modified to look for another update after the first update, instead of waiting for the next iteration of the 0 millisecond timer message. This improves the overall performance of the system.</li>
+</ul>
+
+<li>2<sup>nd</sup> November, 2010</li>
+
+<ul>
+<li>This update is performance related. The main changes center around the network connections. The network connections are now multi-threaded. This allows the server to concurrently send updates to the connected clients. For the client, it means a performance improvement in the UI. The network connection to the server and the UI are no longer in the same thread sharing the same message pump. The client now caches keyboard and mouse commands, which minimizes the lag of pressing a key and seeing it appear.</li>
+</ul>
+
+<p>Given below is a screenshot demonstrating remotely operating two machines over a WAN:</p>
+
+<p><a href="remotecontrol/image001.PNG"><img width="550" height="361" alt="Click to enlarge image" src="remotecontrol/image001_small.PNG" border="0" complete="true" /> </a></p>
+
+<li>10<sup>th</sup> November, 2010</li>
+
+<ul>
+<li>This update addresses two items. The first item is stability. The second item adds a feature to the client that prevents resizing the window larger than the server's desktop screen size.</li>
+</ul>
+
+<li>1<sup>st</sup> December, 2010</li>
+
+<p>This update adds more stability, updates an item and adds two new items:</p>
+
+<ul>
+<li>The system improves the stability between the client and the server.</li>
+
+<li>The system changes the handshaking mechanism between the client and the server when a new connection is established. This means that previous versions of the system will not be compatible with this version.</li>
+
+<li>The server now transmits cursor information to the client. The client's <code>CScrollView</code> window will now echo the cursor that is active on the server. The server code captures the cursor and breaks it down into data representing the monochrome bitmap and color bitmap of the icon as well as the other icon information. This data is transmitted to the client in a <code>CPacket</code> data structure. The client builds a cursor from this data and uses it for the active cursor of the <code>CScrollView</code>.</li>
+
+<ul>
+<li>A <code>CCursor</code> class was added to <em>DIBFrame.h</em> which builds an <code>HCURSOR</code>.</li>
+</ul>
+
+<li>The client will not resize larger than the server's virtual desktop size, and a “shrink to fit” option was added. This option allows the client to shrink the server display into the client view window. This option is accessed via the toolbar as a magnifying glass icon and also from the view menu. The system starts in a “zoomed in” state. Clicking the new toolbar button will “zoom out” the view.</li>
+
+<ul>
+<li>For developers familiar with <code>CScrollView</code>, this is the functionality that is embodied in the function call “<code>SetScaleToFitSize</code>”.</li>
+
+<li>For <code>CView</code> derived classes, like <code>CScrollView</code> in this project, window sizing is actually tricky. The trick to limiting the size of the window can be accomplished by the code in <em>RDVView.cpp</em>, implementing the methods “<code>OnSize</code>” and “<code>OnUpdate</code>”. The key is to use the functions “<code>RecalcLayout</code>” and “<code>ResizeParentToFit</code>”.</li>
+</ul>
+</ul>
+
+<li>1<sup>st</sup> March, 2011</li>
+<p>This update improves performance by choosing good starting values for threads and grids.  It also adds PNG file support using GDI+.  This format compresses better than the DIB format</p>
+<ul>
+<li>Compression was delegated to the main threads code to prevent over subscription of the hardware</li>
+<li>The data of the PNG format comes by using <code>CImage</code> class</li>
+<ul><li>For reading, the data is serialized to a <code>COleStreamFile</code> whose contents are extracted by calls to <code>GetHGlobalFromStream</code> and <code>GlobalLock</code></li></ul>
+<ul><li>For writing, the data is serialized from a <code>COleStreamFile</code> whose contents are loaded into the <code>CImage</code></li></ul>
+<li>The server displays its public IP address (in case you are supporting your parents remotely and they don't know how to tell you their public IP address)</li>
+<li>This update removes displaying the servers cursor on the client until the issue with it can be resolved</li>
+<li>This update only supports the VS2008 workspace.  It should be easy enough to migrate the source code to the VS2005 project if that is what you use.</li>
+
+</ul>
+
+</ul>
+
+</span>
+<!-- End Article -->
+
+
+
+
+</div> 
+</body>
+</html>

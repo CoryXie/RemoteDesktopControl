@@ -1,0 +1,217 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\RDS.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "GravyLabs LLC"
+            VALUE "FileDescription", "Remote Desktop Server"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "RDS.exe"
+            VALUE "LegalCopyright", "(c) GravyLabs LLC.  All rights reserved."
+            VALUE "OriginalFilename", "RDS.exe"
+            VALUE "ProductName", "Remote Desktop System"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_RDS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "RDS"
+    BEGIN
+        MENUITEM "Restore",                     ID_RDS_RESTORE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_RDS_DIALOG DIALOGEX 0, 0, 210, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Desktop Server"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Pwd",IDC_STATIC_PWD,6,8,24,8,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_PWD,30,6,24,12,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Port",IDC_STATIC_PORT,67,8,14,8,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_PORT,85,6,24,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "RGB",IDC_RGB,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,117,8,29,10
+    CONTROL         "BW",IDC_BW,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,147,8,24,10
+    LTEXT           "X Scale",IDC_STATIC_XSCALE,6,31,24,12,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_XSCALE,30,31,24,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Y Scale",IDC_STATIC_YSCALE,61,31,24,12,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_YSCALE,85,31,24,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Threads",IDC_STATIC_GRIDTHREADS,138,30,30,12,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_GRIDTHREADS,168,30,29,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Use Compression",IDC_COMPRESSION,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,6,50,71,10
+    CONTROL         "ZLIB",IDC_ZLIB,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,76,50,30,10
+    CONTROL         "AC",IDC_AC,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,104,50,25,10
+    LTEXT           "Threads",IDC_STATIC_ACTHREADS,138,48,30,12,SS_CENTERIMAGE | WS_DISABLED
+    EDITTEXT        IDC_ACTHREADS,168,48,30,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    PUSHBUTTON      "Start",IDC_START,6,69,50,16,WS_DISABLED
+    PUSHBUTTON      "Stop",IDC_STOP,78,69,50,16,WS_DISABLED
+    DEFPUSHBUTTON   "Quit",IDOK,150,69,50,16
+    CONTROL         "DIB",IDC_IMGDIB,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,117,18,27,10
+    CONTROL         "PNG",IDC_IMGPNG,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,147,18,25,10
+    CONTROL         "Low BW",IDC_LBW,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_DISABLED | WS_TABSTOP,175,8,30,18
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "Remote Desktop Server"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\RDS.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
