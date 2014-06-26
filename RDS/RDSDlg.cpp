@@ -1,4 +1,4 @@
-// Remote Desktop System - remote controlling of multiple PC's
+﻿// Remote Desktop System - remote controlling of multiple PC's
 // Copyright (C) 2000-2009 GravyLabs LLC
 
 // This program is free software; you can redistribute it and/or modify
@@ -58,6 +58,8 @@ CRDSDlg::CRDSDlg(CWnd* pParent /*=NULL*/)
 	m_nCompThreads = cpu.GetNbProcs();
 
 	// Temporarily disable UAC
+	// EnableLUA specifies whether Windows® User Account Controls (UAC) notifies the user when programs 
+	// try to make changes to the computer. UAC was formerly known as Limited User Account (LUA).
 	CRegistry Registry(TRUE,FALSE);
 	if (Registry.Open(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System")))
 	{
@@ -360,6 +362,7 @@ LRESULT CRDSDlg::OnReceiveData(WPARAM wParam,LPARAM lParam)
 		m_nIncoming = 0;
 		m_bAcceptUpdate = FALSE;
 
+#if 0
 		// Create the verification packet
 		CPacket Packet2(m_csPassword,0);
 
@@ -383,6 +386,8 @@ LRESULT CRDSDlg::OnReceiveData(WPARAM wParam,LPARAM lParam)
 			return 0;
 		}
 		else
+#endif // 0
+
 		{
 			// Build the display attribute packet
 			CPacket Packet(m_cxWidth,m_cyHeight,m_nBitCount,m_nThreads);
