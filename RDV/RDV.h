@@ -41,6 +41,8 @@ public:
 	afx_msg void OnAppAbout();
 
 	DECLARE_MESSAGE_MAP()
+	// View a list of neighbor machines with their host names and ip addresses
+	afx_msg void OnViewNeighbors();
 };
 
 extern CRDVApp theApp;

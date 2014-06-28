@@ -20,6 +20,10 @@
 #include "ChildFrm.h"
 #include "RDVDoc.h"
 #include "RDVView.h"
+#include <IPHlpApi.h>
+
+#pragma comment(lib, "iphlpapi.lib")
+#pragma comment(lib, "mpr.lib")
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +38,7 @@ BEGIN_MESSAGE_MAP(CRDVApp, CWinApp)
 	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_VIEW_PEERS, &CRDVApp::OnViewNeighbors)
 END_MESSAGE_MAP()
 
 
@@ -190,3 +195,66 @@ void CRDVApp::OnAppAbout()
 
 // CRDVApp message handlers
 
+// View a list of neighbor machines with their host names and ip addresses
+afx_msg void CRDVApp::OnViewNeighbors()
+{
+	NETRESOURCE *pNetResource;
+	HANDLE		hEnum;
+	DWORD		dwResult;
+	DWORD		dwSize = 16386;
+	DWORD		dwNum;
+	struct  hostent* host = NULL;
+	WSADATA		wsaData;
+
+	CString msg;
+
+	dwResult = WNetOpenEnum(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, RESOURCEDISPLAYTYPE_SERVER, NULL, &hEnum);
+	if (dwResult != 0)
+	{
+		AfxMessageBox(_T("WNetOpenEnum failed.\n"));
+		return;
+	}
+
+	pNetResource = (LPNETRESOURCE)GlobalAlloc(GPTR, dwSize);
+	if (pNetResource == NULL)
+	{
+		AfxMessageBox(_T("GlobalAlloc failed.\n"));
+		return;
+	}
+
+	dwNum = -1;
+
+	dwResult = WNetEnumResource(hEnum, &dwNum, pNetResource, &dwSize);
+	if (dwResult != 0)
+	{
+		AfxMessageBox(_T("WNetEnumResource failed.\n"));
+		return;
+	}
+
+	for (DWORD i = 0; i < dwNum; i++)
+	{
+		if (pNetResource[i].lpRemoteName == NULL)
+			continue;
+
+		CString RemoteName = CString(pNetResource[i].lpRemoteName);
+
+		AfxMessageBox(RemoteName);
+
+		if (0 == RemoteName.Left(2).Compare(CString("\\\\")))
+		{
+			RemoteName = RemoteName.Right(RemoteName.GetLength() - 2);	
+
+			host = gethostbyname((char*)(LPCTSTR)RemoteName);
+
+			if (host != NULL)
+			{
+				msg.Format(_T("%s - %s\n"), host->h_name, inet_ntoa(*(in_addr *)host->h_addr));
+
+				AfxMessageBox(msg);
+			}
+		}
+	}
+
+	GlobalFree(pNetResource);
+	WNetCloseEnum(hEnum);
+}
