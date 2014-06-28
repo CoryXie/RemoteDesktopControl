@@ -25,6 +25,9 @@
 #include "..\TCPSocket.h"
 #include "..\Packet.h"
 #include "..\Registry.h"
+#include <IPHlpApi.h>
+
+#pragma comment(lib, "iphlpapi.lib")
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1000,6 +1003,7 @@ void CRDSDlg::DeleteRefreshThreads()
 	}
 }
 
+#if 0
 // Get a list of local IP addresses and attach them to the Combo List
 int CRDSDlg::GetIPAddresses()
 {
@@ -1044,3 +1048,85 @@ int CRDSDlg::GetIPAddresses()
 
 	return numIps;
 }
+
+#else
+#define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
+#define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
+
+// Fetches the MAC address and prints it
+int CRDSDlg::GetIPAddresses(void)
+{
+	int numIps = 0;
+	int i;
+
+	/* Variables used by GetIpAddrTable */
+	PMIB_IPADDRTABLE pIPAddrTable;
+	DWORD dwSize = 0;
+	DWORD dwRetVal = 0;
+	IN_ADDR IPAddr;
+
+	// Before calling AddIPAddress we use GetIpAddrTable to get
+	// an adapter to which we can add the IP.
+	pIPAddrTable = (MIB_IPADDRTABLE *)MALLOC(sizeof (MIB_IPADDRTABLE));
+
+	if (pIPAddrTable) {
+		// Make an initial call to GetIpAddrTable to get the
+		// necessary size into the dwSize variable
+		if (GetIpAddrTable(pIPAddrTable, &dwSize, 0) == ERROR_INSUFFICIENT_BUFFER) {
+			FREE(pIPAddrTable);
+			pIPAddrTable = (MIB_IPADDRTABLE *)MALLOC(dwSize);
+
+		}
+		if (pIPAddrTable == NULL) {
+			AfxMessageBox(_T("Memory allocation failed for GetIpAddrTable\n"));
+			return 0;
+		}
+	}
+
+	// Make a second call to GetIpAddrTable to get the
+	// actual data we want
+	if ((dwRetVal = GetIpAddrTable(pIPAddrTable, &dwSize, 0)) != NO_ERROR) {
+		AfxMessageBox(_T("GetIpAddrTable failed with error %d\n", dwRetVal));
+		return 0;
+	}
+
+	m_ComboIPAddresses.Clear();
+
+	for (i = 0; i < (int)pIPAddrTable->dwNumEntries; i++) {
+
+		IPAddr.S_un.S_addr = (ULONG)pIPAddrTable->table[i].dwAddr;
+
+		CString str = CString(inet_ntoa(IPAddr));
+		
+		str += "[ ";
+		if (pIPAddrTable->table[i].wType & MIB_IPADDR_PRIMARY)
+			str += "Primary ";
+		if (pIPAddrTable->table[i].wType & MIB_IPADDR_DYNAMIC)
+			str += "Dynamic ";
+		if (pIPAddrTable->table[i].wType & MIB_IPADDR_DISCONNECTED)
+			str += "Disconnected ";
+		if (pIPAddrTable->table[i].wType & MIB_IPADDR_DELETED)
+			str += "Deleted ";
+		if (pIPAddrTable->table[i].wType & MIB_IPADDR_TRANSIENT)
+			str += "Transient ";
+		str += "]";
+
+		m_ComboIPAddresses.AddString(str);
+
+	}
+
+	if (pIPAddrTable) {
+		FREE(pIPAddrTable);
+		pIPAddrTable = NULL;
+	}
+
+	numIps = m_ComboIPAddresses.GetCount();
+
+	if (numIps > 0)
+		m_ComboIPAddresses.SetCurSel(0);
+
+	UpdateData(FALSE);
+
+	return numIps;
+}
+#endif
