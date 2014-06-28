@@ -25,15 +25,10 @@
 #include "..\TCPSocket.h"
 #include "..\Packet.h"
 #include "..\Registry.h"
-#include "afxole.h"
-#import "msxml3.dll"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-// Use a HTTP request to a well known server that echo's back the public IP address
-void GetPublicIP(CString & csIP);
 
 // CRDSDlg dialog
 CRDSDlg::CRDSDlg(CWnd* pParent /*=NULL*/)
@@ -156,7 +151,8 @@ void CRDSDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_YSCALE, m_iYScale);
 	DDV_MinMaxInt(pDX, m_iYScale, 1, 4);
 	DDX_Text(pDX, IDC_GRIDTHREADS, m_nGridThreads);
-	DDV_MinMaxInt(pDX, m_nGridThreads, 1, min(m_iXScale * m_iYScale,MAXTHREADS));
+	DDV_MinMaxInt(pDX, m_nGridThreads, 1, min(m_iXScale * m_iYScale, MAXTHREADS));
+	DDX_Control(pDX, IDC_COMBO_IP, m_ComboIPAddresses);
 }
 
 BEGIN_MESSAGE_MAP(CRDSDlg, CDialog)
@@ -198,15 +194,12 @@ BOOL CRDSDlg::OnInitDialog()
 	// Set up tray icon
 	m_TrayIcon.SetNotificationWnd(this,WM_NOTIFY_TRAY);
 	m_TrayIcon.SetIcon(IDR_MAINFRAME);
-
-	// Get the IP address of the host
-	CString csIP;
-	GetPublicIP(csIP);
+	
+	GetIPAddresses();
 
 	// Set the dialog title
-	CString csTitle;
-	csTitle.Format(_T("Desktop Server: %s"), csIP);
-	SetWindowText(csTitle);
+
+	SetWindowText(CString(_T("Remote Desktop Server")));
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -362,7 +355,6 @@ LRESULT CRDSDlg::OnReceiveData(WPARAM wParam,LPARAM lParam)
 		m_nIncoming = 0;
 		m_bAcceptUpdate = FALSE;
 
-#if 0
 		// Create the verification packet
 		CPacket Packet2(m_csPassword,0);
 
@@ -386,8 +378,6 @@ LRESULT CRDSDlg::OnReceiveData(WPARAM wParam,LPARAM lParam)
 			return 0;
 		}
 		else
-#endif // 0
-
 		{
 			// Build the display attribute packet
 			CPacket Packet(m_cxWidth,m_cyHeight,m_nBitCount,m_nThreads);
@@ -1010,56 +1000,47 @@ void CRDSDlg::DeleteRefreshThreads()
 	}
 }
 
-// Use a HTTP request to a well known server that echo's back the public IP address
-void GetPublicIP(CString & csIP) 
+// Get a list of local IP addresses and attach them to the Combo List
+int CRDSDlg::GetIPAddresses()
 {
-	// Initialize COM
-	bool bInit = false;
-	if (SUCCEEDED(CoInitialize(NULL)))
+	char HostName[128];
+	int numIps = 0;
+
+	UpdateData(TRUE);
+
+	//Get host name and Check is there was any error
+	if (gethostname(HostName, sizeof(HostName)) == SOCKET_ERROR)
 	{
-		// COM was initialized
-		bInit = true;
-
-		// Create a HTTP request object
-		MSXML2::IXMLHTTPRequestPtr HTTPRequest;
-		HRESULT hr = HTTPRequest.CreateInstance("MSXML2.XMLHTTP");
-		if (SUCCEEDED(hr))
-		{
-			// Build a request to a web site that returns the public IP address
-			VARIANT Async;
-			Async.vt = VT_BOOL;
-			Async.boolVal = VARIANT_FALSE;
-			CComBSTR ccbRequest = L"http://whatismyipaddress.com/";
-
-			// Open the request
-			if (SUCCEEDED(HTTPRequest->raw_open(L"GET",ccbRequest,Async)))
-			{
-				// Send the request
-				if (SUCCEEDED(HTTPRequest->raw_send()))
-				{
-					// Get the response
-					CString csRequest = HTTPRequest->GetresponseText();
-
-					// Parse the IP address
-					CString csMarker = CString("<!-- contact us before using a script to get your IP address -->");
-					int iPos = csRequest.Find(csMarker);
-					if (iPos != -1)
-					{
-						iPos += csMarker.GetLength();
-						int iPos2 = csRequest.Find(csMarker,iPos);
-						if (iPos2 != -1)
-						{
-							// Build the IP address
-							int nCount = iPos2 - iPos;
-							csIP = csRequest.Mid(iPos,nCount);
-						}
-					}
-				}
-			}
-		}
+		AfxMessageBox(_T("Error in Getting Host Info"));
+		CDialog::OnCancel();
 	}
 
-	// Unitialize COM
-	if (bInit)
-		CoUninitialize();
+	//Get the ip address of the machine using gethostbyname function
+	struct hostent *IpList = gethostbyname(HostName);
+	if (IpList == 0)
+	{
+		AfxMessageBox(_T("Yow! Bad host lookup."));
+		CDialog::OnCancel();
+	}
+
+	//Enumerate list of Ip Address available in the machine
+	for (int i = 0; IpList->h_addr_list[i] != 0; ++i)
+	{
+		struct in_addr addr;
+
+		memcpy(&addr, IpList->h_addr_list[i], sizeof(struct in_addr));
+
+		CString str = CString(inet_ntoa(addr));
+
+		m_ComboIPAddresses.AddString(str);
+	}
+
+	numIps = m_ComboIPAddresses.GetCount();
+
+	if (numIps > 0)
+		m_ComboIPAddresses.SetCurSel(0);
+
+	UpdateData(FALSE);
+
+	return numIps;
 }

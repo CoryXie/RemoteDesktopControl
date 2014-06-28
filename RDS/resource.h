@@ -10,7 +10,7 @@
 #define IDC_STOP                        1002
 #define IDC_PWD                         1003
 #define IDC_STATIC_PWD                  1005
-#define IDC_COMBO1                      1006
+#define IDC_COMBO_IP                    1006
 #define IDC_DISPLAY_BANDS               1007
 #define IDC_STATIC_BANDS                1008
 #define IDC_STATIC_PORT                 1009

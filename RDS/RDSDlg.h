@@ -183,4 +183,9 @@ protected:
 	void SetMouseMessage(WORD wMM,CPoint MousePosition,UINT nFlags,short zDelta);
 	void SetKBMessage(WORD wMM,UINT nChar,UINT nRepCnt,UINT nFlags);
 	void SetMouseKB(INPUT & KeyBoardInput,WORD wVk,bool bDown);
+public:
+	CComboBox m_ComboIPAddresses;
+private:
+	// Get a list of local IP addresses and attach them to the Combo List
+	int GetIPAddresses();
 };

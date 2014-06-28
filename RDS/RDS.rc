@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -102,14 +100,14 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_RDS_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 203
+        RIGHTMARGIN, 224
         TOPMARGIN, 7
-        BOTTOMMARGIN, 83
+        BOTTOMMARGIN, 100
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -120,7 +118,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "RDS"
     BEGIN
@@ -143,7 +141,7 @@ IDR_MAINFRAME           ICON                    "icon1.ico"
 // Dialog
 //
 
-IDD_RDS_DIALOG DIALOGEX 0, 0, 210, 90
+IDD_RDS_DIALOG DIALOGEX 0, 0, 231, 107
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "Desktop Server"
@@ -172,6 +170,8 @@ BEGIN
     CONTROL         "DIB",IDC_IMGDIB,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,117,18,27,10
     CONTROL         "PNG",IDC_IMGPNG,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,147,18,25,10
     CONTROL         "Low BW",IDC_LBW,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_DISABLED | WS_TABSTOP,175,8,30,18
+    LTEXT           "Select Network Interface",IDC_STATIC,7,92,81,8
+    COMBOBOX        IDC_COMBO_IP,91,88,71,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -180,17 +180,17 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Remote Desktop Server"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

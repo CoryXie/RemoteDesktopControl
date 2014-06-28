@@ -256,6 +256,7 @@
     <None Include="RDV.reg" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon1.ico" />
     <Image Include="res\RDVDoc.ico" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
@@ -271,4 +272,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="RDV.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
